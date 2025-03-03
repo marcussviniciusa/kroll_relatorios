@@ -15,7 +15,7 @@ class MetaController {
    * @param {Object} res - Objeto de resposta Express
    * @param {Function} next - Função next do Express
    */
-  async connect(req, res, next) {
+  async connectAccount(req, res, next) {
     try {
       // Validar entrada
       const errors = validationResult(req);

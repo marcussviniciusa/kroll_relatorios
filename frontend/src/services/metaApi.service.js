@@ -101,7 +101,7 @@ class MetaApiService {
    */
   async verifyIntegrationStatus(integrationId) {
     try {
-      const response = await axios.get(`${API_BASE_URL}/integrations/meta/${integrationId}/status`);
+      const response = await axios.get(`${API_BASE_URL}/meta/integrations/${integrationId}/status`);
       return response.data;
     } catch (error) {
       throw handleMetaApiError(error);
@@ -116,7 +116,7 @@ class MetaApiService {
    */
   async connectAccount(companyId, data) {
     try {
-      const response = await axios.post(`${API_BASE_URL}/integrations/meta/connect`, {
+      const response = await axios.post(`${API_BASE_URL}/meta/connect`, {
         companyId,
         accessToken: data.accessToken,
         name: data.name
@@ -134,7 +134,7 @@ class MetaApiService {
    */
   async disconnectAccount(integrationId) {
     try {
-      await axios.delete(`${API_BASE_URL}/integrations/meta/${integrationId}`);
+      await axios.delete(`${API_BASE_URL}/meta/integrations/${integrationId}`);
     } catch (error) {
       throw handleMetaApiError(error);
     }
@@ -147,7 +147,7 @@ class MetaApiService {
    */
   async getAdAccounts(integrationId) {
     try {
-      const response = await axios.get(`${API_BASE_URL}/integrations/meta/${integrationId}/adaccounts`);
+      const response = await axios.get(`${API_BASE_URL}/meta/integrations/${integrationId}/ad-accounts`);
       return response.data;
     } catch (error) {
       throw handleMetaApiError(error);

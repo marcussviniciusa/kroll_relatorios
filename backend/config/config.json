@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "postgres",
-    "password": "postgres",
-    "database": "kroll_relatorios",
-    "host": "localhost",
+    "password": "Marcus1911!!Marcus",
+    "database": "speedfunnels",
+    "host": "77.37.41.106",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "postgres",
-    "database": "kroll_relatorios_test",
-    "host": "localhost",
+    "password": "Marcus1911!!Marcus",
+    "database": "speedfunnels_test",
+    "host": "77.37.41.106",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "postgres",
-    "database": "kroll_relatorios_production",
-    "host": "localhost",
+    "password": "Marcus1911!!Marcus",
+    "database": "speedfunnels",
+    "host": "77.37.41.106",
     "dialect": "postgres"
   }
 }

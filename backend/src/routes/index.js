@@ -16,7 +16,7 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/companies', companyRoutes);
 router.use('/dashboards', dashboardRoutes);
-router.use('/integrations/meta', metaRoutes);
+router.use('/meta', metaRoutes);
 router.use('/integrations/ga', googleAnalyticsRoutes);
 router.use('/reports', reportRoutes);
 router.use('/alerts', alertRoutes);
