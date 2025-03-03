@@ -23,15 +23,14 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    accessToken: {
-      type: DataTypes.TEXT,
-      allowNull: false
+    // Removido o armazenamento direto do token
+    // O token agora é armazenado no modelo MetaToken
+    tokenStatus: {
+      type: DataTypes.ENUM('active', 'expired', 'revoked', 'invalid'),
+      allowNull: false,
+      defaultValue: 'active'
     },
-    refreshToken: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    tokenExpiry: {
+    tokenLastVerifiedAt: {
       type: DataTypes.DATE,
       allowNull: true
     },

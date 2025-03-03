@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const dashboardController = require('../controllers/dashboard.controller');
 const widgetController = require('../controllers/widget.controller');
-const { authenticate } = require('../middlewares/auth');
+const authMiddleware = require('../middlewares/auth');
 const { authorize } = require('../middlewares/rbac');
 const validateRequest = require('../middlewares/validateRequest');
 const dashboardValidator = require('../validators/dashboard.validator');
@@ -17,12 +17,12 @@ router.get('/public/:accessKey', dashboardController.getSharedDashboard);
 router.post('/public/:accessKey/verify-password', dashboardController.verifySharedDashboardPassword);
 
 // Protected dashboard routes
-router.use(authenticate);
+router.use(authMiddleware);
 
 // Dashboard CRUD operations
 router.get('/', dashboardController.getAllDashboards);
-router.post('/', validateRequest(dashboardValidator.createDashboard), dashboardController.createDashboard);
 router.get('/:id', dashboardController.getDashboardById);
+router.post('/', validateRequest(dashboardValidator.createDashboard), dashboardController.createDashboard);
 router.put('/:id', validateRequest(dashboardValidator.updateDashboard), dashboardController.updateDashboard);
 router.delete('/:id', dashboardController.deleteDashboard);
 

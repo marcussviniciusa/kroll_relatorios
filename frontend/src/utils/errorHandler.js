@@ -157,3 +157,63 @@ export const logError = (error, context = '') => {
     // });
   }
 };
+
+/**
+ * Handle specific Meta (Facebook) API errors
+ * @param {Error} error - Error from Facebook SDK
+ * @returns {ApiError} Standardized API error
+ */
+export const handleMetaApiError = (error) => {
+  let message = 'Erro na integração com o Meta';
+  let status = 400;
+  let details = null;
+  let code = null;
+
+  // Facebook error object structure
+  if (error && error.response) {
+    const fbError = error.response.error;
+    
+    if (fbError) {
+      message = fbError.message || message;
+      code = fbError.code || fbError.error_code || code;
+      status = fbError.code === 190 ? 401 : status; // Token inválido = 401
+      
+      // Detalhes específicos do erro
+      if (fbError.error_subcode) {
+        details = { subcode: fbError.error_subcode };
+      }
+    }
+  }
+
+  // Mensagens amigáveis para códigos de erro comuns do Facebook
+  if (code) {
+    switch (code) {
+      case 2:
+        message = 'Aplicativo do Facebook não configurado corretamente';
+        break;
+      case 4:
+        message = 'Muitas chamadas para a API do Facebook';
+        break;
+      case 102:
+        message = 'Sessão do Facebook expirada';
+        break;
+      case 190:
+        message = 'Token de acesso do Facebook inválido ou expirado';
+        break;
+      case 200:
+        message = 'Permissões insuficientes para acessar este recurso do Facebook';
+        break;
+      case 10:
+        message = 'Erro de permissão com a API do Facebook';
+        break;
+      case 100:
+        message = 'Parâmetro inválido na chamada à API do Facebook';
+        break;
+      case 803:
+        message = 'Algumas permissões foram negadas pelo usuário';
+        break;
+    }
+  }
+
+  return new ApiError(message, status, details, code);
+};

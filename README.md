@@ -71,6 +71,40 @@ npm run dev
 - **Relatórios**: Geração e compartilhamento de relatórios
 - **Alertas**: Sistema de notificações baseado em métricas
 
+## Integração com Meta (Facebook)
+
+A integração com o Meta permite que os usuários conectem suas contas do Facebook para acessar dados de páginas, campanhas publicitárias e insights de desempenho.
+
+### Configuração da Integração Meta
+
+1. Crie um aplicativo no [Meta for Developers](https://developers.facebook.com/)
+2. Configure as seguintes permissões no aplicativo:
+   - `public_profile`
+   - `email`
+   - `ads_management`
+   - `ads_read`
+   - `business_management`
+3. Adicione o ID do aplicativo Meta ao arquivo `.env`:
+   ```
+   REACT_APP_META_APP_ID=seu_app_id_aqui
+   ```
+
+### Funcionalidades da Integração Meta
+
+- **Login com Facebook**: Autenticação segura usando o SDK oficial do Facebook
+- **Conexão de Contas**: Vincule múltiplas contas do Facebook a uma empresa
+- **Métricas de Páginas**: Visualize dados de alcance, engajamento e crescimento
+- **Métricas de Anúncios**: Acompanhe o desempenho de campanhas publicitárias
+- **Insights Agregados**: Obtenha visões consolidadas do desempenho de marketing
+- **Testador de Integração**: Interface dedicada para testar a conexão e obter métricas em tempo real
+
+### Fluxo de Autenticação
+
+1. O usuário clica em "Conectar com Facebook" na página de integrações
+2. Uma janela de autenticação do Facebook é aberta solicitando permissões
+3. Após a autenticação bem-sucedida, o token de acesso é armazenado com segurança
+4. O sistema usa o token para fazer chamadas à API do Facebook em nome do usuário
+
 ## Ambiente de Teste
 
 O projeto inclui um ambiente de teste completo que pode ser usado sem um backend funcional:
@@ -97,6 +131,95 @@ O projeto inclui um ambiente de teste completo que pode ser usado sem um backend
 
 - **Email**: usuario@teste.com
 - **Senha**: senha123
+
+## Sistema de Notificações
+
+O projeto inclui um sistema de notificações moderno e centralizado para fornecer feedback ao usuário:
+
+### Características do Sistema de Notificações
+
+- **Notificações Contextuais**: Exibição de mensagens de sucesso, erro, aviso e informação
+- **Gerenciamento Centralizado**: Contexto React para gerenciar notificações em toda a aplicação
+- **Tratamento de Erros Específicos**: Mensagens amigáveis para erros comuns das APIs
+- **Suporte Multi-plataforma**: Tratamento específico para erros do Meta e Google Analytics
+- **Personalização**: Controle de duração, posição e aparência das notificações
+- **Feedback em Tempo Real**: Notificações durante operações assíncronas
+
+### Como Usar o Sistema de Notificações
+
+```jsx
+// Exemplo de uso do hook de notificações
+import { useNotification } from '../contexts/NotificationContext';
+
+const MeuComponente = () => {
+  const { showSuccess, showError, showInfo, showWarning } = useNotification();
+  
+  const handleAction = async () => {
+    try {
+      // Alguma operação
+      showSuccess('Operação realizada com sucesso!');
+    } catch (error) {
+      showError(error); // Tratamento automático do erro
+    }
+  };
+  
+  return (
+    <Button onClick={handleAction}>Executar Ação</Button>
+  );
+};
+```
+
+## Testador de Integrações
+
+O projeto inclui uma interface dedicada para testar as integrações com plataformas externas:
+
+### Funcionalidades do Testador de Integrações
+
+- **Seleção de Integração**: Escolha entre diferentes contas conectadas
+- **Teste de Conexão**: Verifique se a autenticação está funcionando corretamente
+- **Visualização de Métricas**: Obtenha dados em tempo real das plataformas
+- **Seleção de Período**: Escolha o intervalo de datas para as métricas
+- **Visualização de Resultados**: Interface amigável para exibir os dados obtidos
+
+### Como Acessar o Testador de Integrações
+
+1. Acesse a página de integrações em `/integrations`
+2. Clique no botão "Testar Integrações" no topo da página
+3. Selecione a integração que deseja testar
+4. Escolha as opções de teste e visualize os resultados
+
+## Sistema de Tokens Seguro
+
+O projeto implementa um sistema avançado para gerenciamento seguro de tokens de acesso para integrações externas:
+
+### Funcionalidades do Sistema de Tokens
+
+- **Criptografia Avançada**: Tokens armazenados com criptografia AES-256-GCM
+- **Renovação Automática**: Renovação de tokens expirados quando possível
+- **Verificação de Validade**: Verificação periódica da validade dos tokens
+- **Separação de Responsabilidades**: Modelo dedicado para armazenamento de tokens
+- **Gerenciamento de Ciclo de Vida**: Controle completo do ciclo de vida dos tokens
+- **Segurança Aprimorada**: Tokens nunca expostos na interface do usuário
+
+### Implementação Técnica
+
+```javascript
+// Exemplo de uso do TokenManager
+const tokenManager = require('../utils/tokenManager');
+
+// Armazenar um token de forma segura
+const tokenData = tokenManager.prepareTokenForStorage(accessToken);
+
+// Recuperar um token armazenado
+const { token, isValid } = tokenManager.retrieveToken(storedTokenData);
+```
+
+### Benefícios de Segurança
+
+- Proteção contra vazamento de tokens em logs e interfaces
+- Conformidade com melhores práticas de segurança
+- Auditoria de uso e validade de tokens
+- Proteção contra ataques de interceptação
 
 ## Dashboard Modernizado
 

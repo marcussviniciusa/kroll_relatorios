@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ptBR } from '@mui/material/locale';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppRoutes from './AppRoutes';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 // Create theme - Interface moderna com design mais atual
 const theme = createTheme({
@@ -138,7 +139,9 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppRoutes />
+      <NotificationProvider>
+        <AppRoutes />
+      </NotificationProvider>
     </ThemeProvider>
   );
 };

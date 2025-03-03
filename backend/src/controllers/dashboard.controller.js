@@ -432,6 +432,62 @@ exports.duplicateDashboard = async (req, res, next) => {
   }
 };
 
+/**
+ * Verifica a senha de um dashboard compartilhado
+ * @route POST /api/dashboards/public/:accessKey/verify-password
+ * @access Public
+ */
+exports.verifySharedDashboardPassword = async (req, res, next) => {
+  try {
+    const { accessKey } = req.params;
+    const { password } = req.body;
+    
+    // Buscar dashboard pelo accessKey
+    const dashboard = await Dashboard.findOne({
+      where: { 
+        publicAccessKey: accessKey,
+        isPublic: true,
+        status: 'active'
+      }
+    });
+    
+    if (!dashboard) {
+      return next(new AppError('Dashboard não encontrado ou não está disponível publicamente', 404));
+    }
+    
+    // Verificar se o dashboard requer senha
+    if (!dashboard.publicAccessPassword) {
+      return res.status(200).json({
+        success: true,
+        message: 'Este dashboard não requer senha',
+        data: { verified: true }
+      });
+    }
+    
+    // Verificar a senha
+    const isPasswordValid = dashboard.publicAccessPassword === password;
+    
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: 'Senha incorreta',
+        data: { verified: false }
+      });
+    }
+    
+    // Senha correta
+    return res.status(200).json({
+      success: true,
+      message: 'Senha verificada com sucesso',
+      data: { verified: true }
+    });
+    
+  } catch (error) {
+    logger.error('Erro ao verificar senha do dashboard compartilhado:', error);
+    return next(new AppError('Erro ao verificar senha do dashboard', 500));
+  }
+};
+
 // Helper methods
 exports.checkDashboardAccess = async (user, dashboard, permission = 'view') => {
   if (!user) return false;
